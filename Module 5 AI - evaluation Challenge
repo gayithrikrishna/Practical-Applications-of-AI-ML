@@ -1,0 +1,56 @@
+# MODULE 5: CONTENT AI EVALUATION
+# Clarity and Tone Evaluation
+
+text = input("Enter your AI-generated content: ")
+
+words = text.split()
+sentences = [s for s in text.split(".") if s.strip()]
+
+# 1. Content Analysis
+word_count = len(words)
+sentence_count = len(sentences)
+
+# 2. Clarity Evaluation
+if word_count == 0:
+    clarity = 0
+elif word_count >= 10 and sentence_count > 0:
+    clarity = 90
+else:
+    clarity = 60
+
+# 3. Tone Evaluation
+positive_words = [
+    "good", "great", "happy", "welcome",
+    "excellent", "success", "helpful"
+]
+
+negative_words = [
+    "bad", "poor", "sad", "failure",
+    "problem", "worst"
+]
+
+positive = sum(w.lower() in positive_words for w in words)
+negative = sum(w.lower() in negative_words for w in words)
+
+if positive > negative:
+    tone = "Positive"
+elif negative > positive:
+    tone = "Negative"
+else:
+    tone = "Neutral"
+
+# 4. Evaluation Output
+print("\nCONTENT AI EVALUATION")
+print("---------------------")
+print("Total Words:", word_count)
+print("Total Sentences:", sentence_count)
+print("Clarity Score:", clarity, "/100")
+print("Detected Tone:", tone)
+
+# 5. Final Result
+if clarity >= 80:
+    print("Content Quality: Good")
+else:
+    print("Content Quality: Needs Improvement")
+
+print("\nEvaluation completed successfully.")
