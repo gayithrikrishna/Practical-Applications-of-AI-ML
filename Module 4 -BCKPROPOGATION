@@ -1,0 +1,66 @@
+# MODULE 4: BACKPROPAGATION
+# Neural Network (2-2-1)
+
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Input and target
+x1, x2 = 0.5, 0.8
+target = 1
+lr = 0.5
+
+# Initial weights and biases
+w1, w2 = 0.4, 0.3
+w3, w4 = 0.2, 0.6
+w5, w6 = 0.5, 0.7
+b1, b2 = 0.1, 0.2
+
+# Forward Pass
+h1 = sigmoid(x1*w1 + x2*w2 + b1)
+h2 = sigmoid(x1*w3 + x2*w4 + b1)
+output = sigmoid(h1*w5 + h2*w6 + b2)
+
+loss1 = 0.5 * (target - output)**2
+
+print("BACKPROPAGATION")
+print("Hidden outputs:", h1, h2)
+print("Network output:", output)
+print("Initial loss:", loss1)
+
+# Backward Pass
+delta_o = (output-target) * output * (1-output)
+
+dw5 = delta_o * h1
+dw6 = delta_o * h2
+db2 = delta_o
+
+delta_h1 = delta_o * w5 * h1 * (1-h1)
+delta_h2 = delta_o * w6 * h2 * (1-h2)
+
+dw1 = delta_h1 * x1
+dw2 = delta_h1 * x2
+dw3 = delta_h2 * x1
+dw4 = delta_h2 * x2
+db1 = delta_h1 + delta_h2
+
+# Weight Update
+w1 -= lr*dw1
+w2 -= lr*dw2
+w3 -= lr*dw3
+w4 -= lr*dw4
+w5 -= lr*dw5
+w6 -= lr*dw6
+b1 -= lr*db1
+b2 -= lr*db2
+
+# Verification
+h1 = sigmoid(x1*w1 + x2*w2 + b1)
+h2 = sigmoid(x1*w3 + x2*w4 + b1)
+new_output = sigmoid(h1*w5 + h2*w6 + b2)
+loss2 = 0.5 * (target-new_output)**2
+
+print("\nUpdated output:", new_output)
+print("Updated loss:", loss2)
+print("Learning completed successfully")
