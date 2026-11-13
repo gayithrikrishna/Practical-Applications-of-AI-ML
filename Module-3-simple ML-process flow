@@ -1,0 +1,56 @@
+# Customer Churn Prediction
+
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+# 1. Data Collection
+X = np.array([
+    [1, 20], [2, 30], [3, 25], [4, 40],
+    [5, 50], [6, 60], [7, 65], [8, 70],
+    [9, 80], [10, 90], [2, 75], [3, 85],
+    [4, 20], [5, 30], [6, 40], [7, 50],
+    [8, 55], [9, 60], [1, 90], [10, 30]
+])
+
+# Features: Contract duration and monthly usage
+y = np.array([
+    0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+    0, 1, 0, 0, 0, 1, 1, 1, 1, 0
+])
+
+# 2. Data Preparation
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
+
+# 3. Algorithm Selection
+model = LogisticRegression()
+
+# 4. Model Training
+model.fit(X_train, y_train)
+
+# 5. Testing
+predictions = model.predict(X_test)
+
+# 6. Evaluation
+accuracy = accuracy_score(y_test, predictions)
+
+print("MACHINE LEARNING PROCESS")
+print("------------------------")
+print("Training completed successfully")
+print("Predictions:", predictions)
+print("Actual values:", y_test)
+print("Accuracy:", round(accuracy * 100, 2), "%")
+print("\nClassification Report:")
+print(classification_report(y_test, predictions,
+                            zero_division=0))
+
+# 7. New Customer Prediction
+new_customer = np.array([[3, 25]])
+result = model.predict(new_customer)
+
+print("New Customer Prediction:")
+print("Likely to Leave" if result[0] == 1
+      else "Likely to Stay")
